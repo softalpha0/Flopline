@@ -1,0 +1,40 @@
+name: ci
+on: [push, pull_request]
+
+jobs:
+  contracts:
+    runs-on: ubuntu-latest
+    defaults: { run: { working-directory: contracts } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: foundry-rs/foundry-toolchain@v1
+      - run: forge install foundry-rs/forge-std --no-git
+      - run: forge test
+
+  app:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - uses: foundry-rs/foundry-toolchain@v1
+      - name: deployment file the app imports at build time
+        run: |
+          mkdir -p contracts/deployments
+          echo '{"chainId":31337,"usdc":"0x0000000000000000000000000000000000000001","index":"0x0000000000000000000000000000000000000002","exchange":"0x0000000000000000000000000000000000000003"}' > contracts/deployments/31337.json
+      - run: npm ci
+        working-directory: app
+      - run: npx tsc -b
+        working-directory: app
+
+  indexer:
+    runs-on: ubuntu-latest
+    defaults: { run: { working-directory: indexer } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - run: npm install
+      - name: validate config, schema and handlers
+        run: npx envio codegen
+      - run: npx tsc --noEmit

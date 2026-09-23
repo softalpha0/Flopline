@@ -1,0 +1,60 @@
+type Market @entity {
+  id: ID! # marketId
+  sku: String!
+  closeTime: BigInt!
+  settleTime: BigInt!
+  maxTick: Int!
+  tickSize: BigInt!
+  settled: Boolean!
+  settlePrice: BigInt
+  volume: BigInt! # contracts traded
+  notional: BigInt! # USDC (6dp) traded
+  tradeCount: Int!
+  lastTick: Int
+}
+
+type Order @entity {
+  id: ID! # orderId
+  market: Market! @index
+  owner: String! @index
+  isBid: Boolean!
+  tick: Int!
+  qty: BigInt!
+  remaining: BigInt!
+  status: String! # open | filled | cancelled
+  createdAt: BigInt!
+}
+
+type Trade @entity {
+  id: ID! # blockNumber-logIndex
+  market: Market! @index
+  maker: String! @index
+  taker: String! @index
+  takerBuys: Boolean!
+  tick: Int!
+  qty: BigInt!
+  notional: BigInt!
+  timestamp: BigInt! @index
+  blockNumber: BigInt!
+}
+
+type Position @entity {
+  id: ID! # marketId-user
+  market: Market! @index
+  user: String! @index
+  net: BigInt! # signed contracts, long > 0
+  volume: BigInt!
+  tradeCount: Int!
+  claimed: BigInt!
+}
+
+type Candle @entity {
+  id: ID! # marketId-bucketStart (60s)
+  market: Market! @index
+  bucket: BigInt! @index
+  open: Int!
+  high: Int!
+  low: Int!
+  close: Int!
+  volume: BigInt!
+}

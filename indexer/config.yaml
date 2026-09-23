@@ -1,0 +1,21 @@
+# yaml-language-server: $schema=./node_modules/envio/evm.schema.json
+name: flopline-indexer
+description: Orders, trades, positions and candles for the Flopline compute exchange
+
+contracts:
+  - name: ComputeExchange
+    events:
+      - event: "MarketCreated(uint256 indexed marketId, bytes32 indexed sku, uint64 closeTime, uint64 settleTime, uint32 maxTick, uint128 tickSize)"
+      - event: "OrderPlaced(uint256 indexed marketId, uint64 indexed orderId, address indexed owner, bool isBid, uint32 tick, uint64 qty)"
+      - event: "OrderCancelled(uint256 indexed marketId, uint64 indexed orderId)"
+      - event: "Trade(uint256 indexed marketId, uint64 indexed makerOrderId, address maker, address taker, bool takerBuys, uint32 tick, uint64 qty)"
+      - event: "Settled(uint256 indexed marketId, uint256 price)"
+      - event: "Claimed(uint256 indexed marketId, address indexed user, uint256 payout)"
+
+chains:
+  - id: 10143 # Monad testnet
+    start_block: 64877086 # ComputeExchange deployment block
+    contracts:
+      - name: ComputeExchange
+        address:
+          - "0xD763623Ee8BBcaf9cCEb1F1F40BF2D81DED99ffD"

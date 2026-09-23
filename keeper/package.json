@@ -1,0 +1,15 @@
+{
+  "name": "flopline-keeper",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "setup": "node src/setup.js",
+    "index": "node src/index-keeper.js",
+    "maker": "node src/marketmaker.js",
+    "taker": "node src/taker.js"
+  },
+  "dependencies": {
+    "viem": "^2.21.0"
+  }
+}

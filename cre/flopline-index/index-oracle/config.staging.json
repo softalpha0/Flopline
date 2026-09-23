@@ -1,0 +1,16 @@
+{
+  "schedule": "0 */1 * * * *",
+  "chainName": "monad-testnet",
+  "receiverAddress": "0x849e82187F7eA0e5739C4BFaf65b9Df64f985dec",
+  "gasLimit": "300000",
+  "sources": [
+    { "name": "feed-a", "url": "http://localhost:8787/feed/a", "path": "h100.usd_per_hour" },
+    { "name": "feed-b", "url": "http://localhost:8787/feed/b", "path": "h100.usd_per_hour" },
+    { "name": "feed-c", "url": "http://localhost:8787/feed/c", "path": "h100.usd_per_hour" }
+  ],
+  "markets": [
+    { "sku": "H100-USEAST-DRYRUN", "premiumBps": 0 },
+    { "sku": "H100-USEAST-WK1", "premiumBps": 100 },
+    { "sku": "H100-USEAST-WK2", "premiumBps": 200 }
+  ]
+}
