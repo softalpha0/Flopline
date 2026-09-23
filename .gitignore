@@ -10,3 +10,4 @@ contracts/lib/
 contracts/deployments/31337.json
 indexer/generated/
 indexer/.envio/
+indexer/envio-env.d.ts
