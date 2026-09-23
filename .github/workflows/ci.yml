@@ -37,10 +37,11 @@ jobs:
       - run: npm install
       - name: envio version
         run: npx --no-install envio --version
-      - name: envio codegen help
-        run: npx --no-install envio codegen --help
       - name: validate config, schema and handlers
         run: npx --no-install envio codegen
       - name: what codegen produced
-        run: find . -maxdepth 3 -iname "generated" -o -iname "*.res" -o -iname "*.gen.ts" | head -50; ls -la
+        run: |
+          echo "--- envio-env.d.ts ---"; cat envio-env.d.ts
+          echo "--- .envio contents ---"; find .envio -maxdepth 4
+          echo "--- tsconfig.json ---"; cat tsconfig.json
       - run: npx tsc --noEmit
