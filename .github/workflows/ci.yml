@@ -35,6 +35,10 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: 22 }
       - run: npm install
+      - name: envio version
+        run: npx --no-install envio --version
       - name: validate config, schema and handlers
-        run: npx envio codegen
+        run: npx --no-install envio codegen --verbose || (echo "codegen exited $?"; exit 1)
+      - name: what codegen produced
+        run: find . -maxdepth 3 -iname "generated" -o -iname "*.res" -o -iname "*.gen.ts" | head -50; ls -la
       - run: npx tsc --noEmit
